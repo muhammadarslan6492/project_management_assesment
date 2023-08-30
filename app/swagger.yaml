@@ -1,0 +1,320 @@
+openapi: 3.0.3
+info:
+  title: Job Assesment Doc's
+  description: |-
+    This is a sample APIs doc for Job Assesment
+servers:
+  - url: http://localhost:1337
+tags:
+  - name: User
+    description: All endpoints about the User
+  - name: Admin
+    description: All endpoints about the camp
+paths:
+  /user/project:
+    post:
+      tags:
+        - User
+      summary: User can create project.
+      description: This Api endpoint is used to create project.
+      requestBody:
+        description: This Api endpoint is used to create project.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: The Test
+                description:
+                  type: string
+                  example: This is the test description
+        required: true
+      responses:
+        '201': # status code
+          description: return with object
+        '400': # status code
+          description: Invalid body data
+      components:
+        securitySchemes:
+          bearerAuth: # arbitrary name for the security scheme
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+      security:
+        - BearerAuth: []
+  /user/project/{proId}:
+    get:
+      tags:
+        - User
+      summary:
+      description: User can get project by ID
+      parameters:
+        - name: proId
+          in: path
+          description: Id OF The project
+          required: true
+          schema:
+            type: string
+      responses:
+        '200': # status code
+          description: return success message.
+        '409': # status code
+          description: Invalid Id
+        '403': # status code
+          description: Unauthorized User
+      components:
+        securitySchemes:
+          bearerAuth: # arbitrary name for the security scheme
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+      security:
+        - BearerAuth: []
+    delete:
+      tags:
+        - User
+      summary: Delete a user's project
+      description: This api end point is used to delete user project
+      parameters:
+        - name: proId
+          in: path
+          description: project id for delete project
+          required: true
+          schema:
+            type: string
+      responses:
+        '200': # status code
+          description: return success message.
+        '409': # status code
+          description: Invalid Id
+        '403': # status code
+          description: Unauthorized User
+      components:
+        securitySchemes:
+          bearerAuth: # arbitrary name for the security scheme
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+      security:
+        - BearerAuth: []
+    put:
+      tags:
+        - User
+      summary: User can Update their project
+      description: This Api is used to update project
+      parameters:
+        - name: proId
+          in: path
+          description: ID of the project to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: update me
+                description:
+                  type: string
+                  example: update me
+      responses:
+        '200': # status code
+          description: return success message.
+        '409': # status code
+          description: Invalid Id
+        '403': # status code
+          description: Unauthorized User
+      components:
+        securitySchemes:
+          bearerAuth: # arbitrary name for the security scheme
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+      security:
+        - BearerAuth: []
+  /user/project/{proId}/card:
+    post:
+      tags:
+        - User
+      summary: User can create card in specific project.
+      description: This Api endpoint is used to create card project.
+      parameters:
+        - name: proId
+          in: path
+          description: ID of the project
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: This Api endpoint is used to create card project.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                todo:
+                  type: string
+                  example: The Test
+                priority:
+                  type: string
+                  example: low
+        required: true
+      responses:
+        '201': # status code
+          description: return with created camp object
+        '400': # status code
+          description: Invalid body data
+      components:
+        securitySchemes:
+          bearerAuth: # arbitrary name for the security scheme
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+      security:
+        - BearerAuth: []
+    get:
+      tags:
+        - User
+      summary: User can create card in specific project.
+      description: This Api endpoint is used to create card project.
+      parameters:
+        - name: proId
+          in: path
+          description: ID of the project to update
+          required: true
+          schema:
+            type: string
+      responses:
+        '201': # status code
+          description: return with created camp object
+        '400': # status code
+          description: Invalid body data
+      components:
+        securitySchemes:
+          bearerAuth: # arbitrary name for the security scheme
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+      security:
+        - BearerAuth: []
+  /user/project/{proId}/card/{cardId}:
+    get:
+      tags:
+        - User
+      summary: User can create card in specific project.
+      description: This Api endpoint is used to create card project.
+      parameters:
+        - name: proId
+          in: path
+          description: ID of the project to update
+          required: true
+          schema:
+            type: string
+        - name: cardId
+          in: path
+          description: ID of the card
+          required: true
+          schema:
+            type: string
+      responses:
+        '200': # status code
+          description: return with object
+        '401': # status code
+          description: Invalid
+      components:
+        securitySchemes:
+          bearerAuth: # arbitrary name for the security scheme
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+      security:
+        - BearerAuth: []
+    put:
+      tags:
+        - User
+      summary: User can update card in specific project.
+      description: This Api endpoint is used to update card.
+      parameters:
+        - name: proId
+          in: path
+          description: ID of the project
+          required: true
+          schema:
+            type: string
+        - name: cardId
+          in: path
+          description: ID of the card
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: This Api endpoint is used to update card.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                todo:
+                  type: string
+                  example: The Test
+                priority:
+                  type: string
+                  example: Low
+                status:
+                  type: string
+                  example: Done
+      responses:
+        '200': # status code
+          description: return with object
+        '400': # status code
+          description: Invalid body data
+      components:
+        securitySchemes:
+          bearerAuth: # arbitrary name for the security scheme
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+      security:
+        - BearerAuth: []
+    delete:
+      tags:
+        - User
+      summary: User can delete card in specific project.
+      description: This Api endpoint is used to delete card.
+      parameters:
+        - name: proId
+          in: path
+          description: ID of the project
+          required: true
+          schema:
+            type: string
+        - name: cardId
+          in: path
+          description: ID of the card
+          required: true
+          schema:
+            type: string
+      responses:
+        '204': # status code
+          description: return with success
+        '401': # status code
+          description: Invalid auth
+      components:
+        securitySchemes:
+          bearerAuth: # arbitrary name for the security scheme
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+      security:
+        - BearerAuth: []
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
