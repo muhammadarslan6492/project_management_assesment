@@ -1,7 +1,8 @@
 import { Conflict, BadRequest, NotFound } from 'fejl'
 
 import Repo from '../repo/index'
-import { Project, Reminder } from '../model/index'
+import { Project, Reminder, User } from '../model/index'
+import socketServer from '../../index'
 
 class service extends Repo {
   constructor() {
@@ -108,6 +109,14 @@ class service extends Repo {
     card.priority = data.priority ? data.priority : card.priority
 
     await project.save()
+
+    const admin = User.findOne({ role: 'ADMIN' })
+    const notificationsData = {
+      user: userId,
+      card: cardId,
+      status: 'Updated',
+    }
+    socketServer.adminNotifications(admin._id, notificationsData)
     const response = {
       statusCode: 200,
       message: 'Card successfully updated',

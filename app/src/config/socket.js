@@ -21,9 +21,20 @@ class Socket {
     })
   }
 
-  generateReminder(userId, message) {
+  generateReminder(userId, data) {
     try {
-      this.io.to(this.connectedClients[userId]).emit('reminder', message)
+      this.io.to(this.connectedClients[userId]).emit('reminder', data)
+      return true
+    } catch (error) {
+      return error
+    }
+  }
+
+  adminNotifications(userId, data) {
+    try {
+      this.io
+        .to(this.connectedClients[userId])
+        .emit('admin-notifications', data)
       return true
     } catch (error) {
       return error
