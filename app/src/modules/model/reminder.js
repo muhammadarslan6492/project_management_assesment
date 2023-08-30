@@ -7,6 +7,10 @@ const reminderSchema = mongoose.Schema({
   card: String,
   project: String,
   todo: String,
+  reminderSurve: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const Reminder = mongoose.model('Reminder', reminderSchema)

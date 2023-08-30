@@ -119,6 +119,7 @@ class service extends Repo {
     const where = { _id: proId, user: userId }
     const sq = { cards: { _id: cardId } }
     await this.removeSubDoc(where, sq)
+    await Reminder.deleteMany({ card: cardId })
     const response = {
       statusCode: 204,
       message: 'Card successfully deleted',

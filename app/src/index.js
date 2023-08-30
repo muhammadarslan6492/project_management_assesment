@@ -10,13 +10,13 @@ import YAML from 'yamljs'
 import helment from 'helmet'
 import passport from 'passport'
 import session from 'express-session'
+import * as path from 'path'
 
 import db from './config/db'
 import Router from './modules/router/index'
 import './config/passport'
-import sendPush from './modules/jobs/node-cron'
-
-import { Project } from './modules/model'
+import sendPush from './modules/jobs/reminderPush'
+import Socket from './config/socket'
 
 config()
 
@@ -28,7 +28,17 @@ const options = {
 
 const port = process.env.PORT || 3000
 const app = new Express()
+
+app.get('/', (req, res) => {
+  res.sendFile(`${__dirname}/public/index.html`)
+})
+
 const httpServer = http.createServer(app)
+const socketServer = new Socket(httpServer)
+
+const root = path.normalize(`${__dirname}/../..`)
+app.set('appPath', `${root}client`)
+app.use(Express.static(`${root}/public`))
 
 // app middlewares
 
@@ -61,10 +71,6 @@ app.use(
   })
 )
 
-app.get('/', (req, res) => {
-  res.status(200).json({ meg: 'Api is working' })
-})
-
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options))
 
 try {
@@ -83,3 +89,5 @@ try {
 } catch (err) {
   console.log(err)
 }
+
+export default socketServer

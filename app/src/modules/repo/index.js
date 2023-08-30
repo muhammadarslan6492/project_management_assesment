@@ -3,7 +3,6 @@ import { Conflict, BadRequest, NotFound } from 'fejl'
 
 export default class Repo {
   constructor(model) {
-    console.log('this is', model)
     this.model = model
   }
 
