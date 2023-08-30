@@ -1,7 +1,7 @@
 import { Conflict, BadRequest, NotFound } from 'fejl'
 
 import Repo from '../repo/index'
-import { User, Project } from '../model/index'
+import { Project, Reminder } from '../model/index'
 
 class service extends Repo {
   constructor() {
@@ -129,7 +129,7 @@ class service extends Repo {
   async addReminder(proId, cardId, userId, data) {
     const where = { _id: proId, user: userId }
     console.log(where)
-    const project = await this.findOne(where)
+    const project = await Project.findOne(where)
     if (!project) {
       throw new NotFound('Project not found')
     }
@@ -138,9 +138,15 @@ class service extends Repo {
       throw new NotFound('Card not found')
     }
 
-    console.log(card)
-    card.reminder.push(data)
-    await project.save()
+    data.user = userId
+    data.project = proId
+    data.card = cardId
+    data.todo = card.todo
+
+    const reminder = await Reminder.create(data)
+
+    console.log(reminder)
+
     const response = {
       statusCode: 200,
       message: 'Reminder add to card successfully',

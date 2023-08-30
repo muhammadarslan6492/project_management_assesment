@@ -415,7 +415,7 @@ paths:
               properties:
                 date:
                   type: string
-                  example: '2023-08-30'
+                  example: '2023-09-15T14:30:00'
                 message:
                   type: string
                   example: test message
@@ -432,6 +432,7 @@ paths:
             scheme: bearer
             bearerFormat: JWT
       security:
+        - BearerAuth: []
 components:
   securitySchemes:
     BearerAuth:

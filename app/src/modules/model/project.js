@@ -1,10 +1,5 @@
 import mongoose from 'mongoose'
 
-const reminderSchema = new mongoose.Schema({
-  date: Date,
-  message: String,
-})
-
 const cardSchema = mongoose.Schema({
   todo: String,
   status: {
@@ -16,7 +11,6 @@ const cardSchema = mongoose.Schema({
     type: String,
     values: ['Low', 'High'],
   },
-  reminder: [reminderSchema],
 })
 
 const projectSchema = mongoose.Schema({

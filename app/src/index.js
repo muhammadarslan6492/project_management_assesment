@@ -14,6 +14,9 @@ import session from 'express-session'
 import db from './config/db'
 import Router from './modules/router/index'
 import './config/passport'
+import sendPush from './modules/jobs/node-cron'
+
+import { Project } from './modules/model'
 
 config()
 
@@ -68,6 +71,8 @@ try {
   db()
 
   app.use('/', Router)
+
+  sendPush()
 
   httpServer.listen(port, () => {
     const msg = `up and running in ${
