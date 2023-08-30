@@ -128,6 +128,7 @@ class service extends Repo {
 
   async addReminder(proId, cardId, userId, data) {
     const where = { _id: proId, user: userId }
+    console.log(where)
     const project = await this.findOne(where)
     if (!project) {
       throw new NotFound('Project not found')
@@ -136,6 +137,8 @@ class service extends Repo {
     if (!card) {
       throw new NotFound('Card not found')
     }
+
+    console.log(card)
     card.reminder.push(data)
     await project.save()
     const response = {

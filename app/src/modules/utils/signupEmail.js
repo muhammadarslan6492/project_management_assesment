@@ -11,6 +11,7 @@ const sendEmail = async (obj) => {
     const token = jwt.sign({ id: obj.id }, process.env.secret, {
       expiresIn: 36000,
     })
+    console.log('verify token', token)
     const msg = {
       to: obj.to,
       from: process.env.EMAIL,

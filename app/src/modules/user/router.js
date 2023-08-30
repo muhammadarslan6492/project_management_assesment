@@ -42,7 +42,6 @@ router.delete('/project/:proId/card/:cardId', Auth, UserController.removeCard)
 router.post(
   '/project/:proId/card/:cardId/reminder',
   Auth,
-  validate.ReminderValidator,
   UserController.addReminder
 )
 

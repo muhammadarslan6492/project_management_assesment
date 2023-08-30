@@ -6,11 +6,85 @@ info:
 servers:
   - url: http://localhost:1337
 tags:
+  - name: Google_Auth
+    description: For google oauth signup and login use (http://localhost:1337/aut/goole) on browser. Only for Users
+  - name: Auth
+    description: All endpoints about the Auth
   - name: User
     description: All endpoints about the User
   - name: Admin
-    description: All endpoints about the camp
+    description: All endpoints about the Admin
 paths:
+  /auth/admin-signup:
+    post:
+      tags:
+        - Auth
+      summary: This is signup endpoint for admin.
+      description: This Api endpoint is used for admin to signup.
+      requestBody:
+        description: This Api endpoint is used to create admin.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                displayName:
+                  type: string
+                  example: The Test
+                email:
+                  type: string
+                  example: admin@gmail.com
+                password:
+                  type: string
+                  example: admin@1511
+        required: true
+      responses:
+        '201': # status code
+          description: return with object
+        '400': # status code
+          description: Invalid body data
+  /auth/verify/{JWT}:
+    get:
+      tags:
+        - Auth
+      summary: Email link verification.
+      description: call this api to Validate email.
+      requestBody:
+        description: call this api to Validate email.
+      parameters:
+        - name: JWT
+          in: path
+          description: Unique link verification Id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200': # status code
+          description: return success message along with user object and token
+        '400': # status code
+          description: Invalid body data
+  /auth/resend-verifcation:
+    post:
+      tags:
+        - Auth
+      summary: This is for resend email verification link.
+      description: This is for resend email verification link
+      requestBody:
+        description: This is for resend email verification link
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: admin@gmail.com
+        required: true
+      responses:
+        '200': # status code
+          description: return with message
+        '400': # status code
+          description: Invalid body data
   /user/project:
     post:
       tags:
@@ -167,7 +241,7 @@ paths:
         required: true
       responses:
         '201': # status code
-          description: return with created camp object
+          description: return object
         '400': # status code
           description: Invalid body data
       components:
@@ -207,8 +281,8 @@ paths:
     get:
       tags:
         - User
-      summary: User can create card in specific project.
-      description: This Api endpoint is used to create card project.
+      summary: User can get card in specific project.
+      description: This Api endpoint is used to get card project.
       parameters:
         - name: proId
           in: path
@@ -313,6 +387,51 @@ paths:
             bearerFormat: JWT
       security:
         - BearerAuth: []
+  /user/project/{proId}/card/{cardId}/reminder:
+    post:
+      tags:
+        - User
+      summary: User can add reminder in specific project card.
+      description: This Api endpoint is used to add reminder in card.
+      parameters:
+        - name: proId
+          in: path
+          description: ID of the project
+          required: true
+          schema:
+            type: string
+        - name: cardId
+          in: path
+          description: ID of the card
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: This Api endpoint is used to add remnider in card.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                date:
+                  type: string
+                  example: '2023-08-30'
+                message:
+                  type: string
+                  example: test message
+        required: true
+      responses:
+        '200': # status code
+          description: return with object
+        '400': # status code
+          description: Invalid body data
+      components:
+        securitySchemes:
+          bearerAuth: # arbitrary name for the security scheme
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+      security:
 components:
   securitySchemes:
     BearerAuth:

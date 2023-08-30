@@ -76,6 +76,22 @@ class Service extends Repo {
     }
   }
 
+  async resendVerification(email) {
+    const user = await this.findOne({ email })
+    if (!user) {
+      throw new Conflict('User not exist with the email')
+    }
+    const mailData = {
+      to: user.email,
+      id: user._id,
+    }
+    await sendEmail(mailData)
+    return {
+      statusCode: 200,
+      message: 'Verification link sent to your email',
+    }
+  }
+
   async login(email, password) {
     let user = await this.findOne({ email })
     if (user.role !== 'ADMIN') {

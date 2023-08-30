@@ -44,6 +44,15 @@ export default {
       return res.status(500).json({ error: err.message })
     }
   },
+  resend: async (req, res) => {
+    try {
+      const { email } = req.body
+      const response = await service.resendVerification(email)
+      return res.status(response.statusCode).json(response)
+    } catch (err) {
+      return res.status(500).json({ error: err.message })
+    }
+  },
   adminSignin: async (req, res) => {
     try {
       const { email, password } = req.body

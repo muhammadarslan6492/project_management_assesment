@@ -33,6 +33,7 @@ router.get('/failed', Controller.signupFail)
 
 router.post('/admin-signup', validate.SignupValidator, Controller.adminSignup)
 router.get('/verify/:JWT', Controller.verify)
+router.post('/resend-verifcation', Controller.resend)
 router.post('/admin-login', validate.LoginValidator, Controller.adminSignin)
 
 export default router
