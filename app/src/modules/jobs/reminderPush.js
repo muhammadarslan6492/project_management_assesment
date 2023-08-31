@@ -1,7 +1,9 @@
 import cron from 'node-cron'
 import moment from 'moment'
 
+import { User } from '../model/index'
 import socketServer from '../../index'
+import pushNotification from '../utils/firebasePushNotification'
 
 import { Reminder } from '../model/index'
 
@@ -27,7 +29,19 @@ const sendPush = () => {
           todo: reminder.todo,
           message: reminder.message,
         }
-        socketServer.generateReminder(reminder.user, reminderData)
+        const user = await User.findOne({ _id: reminder.user })
+        const pushToken = user.pushToken
+        const isSent = socketServer.generateReminder(
+          reminder.user,
+          reminderData
+        )
+        if (!isSent) {
+          const msg = {
+            data: reminderData,
+            token: pushToken,
+          }
+          pushNotification(msg)
+        }
       }
     }
   })

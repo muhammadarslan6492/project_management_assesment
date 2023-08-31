@@ -55,8 +55,8 @@ export default {
   },
   adminSignin: async (req, res) => {
     try {
-      const { email, password } = req.body
-      const response = await service.login(email, password)
+      const { body } = req
+      const response = await service.login(body)
       return res
         .status(response.statusCode)
         .json({ user: response.user, token: response.token })

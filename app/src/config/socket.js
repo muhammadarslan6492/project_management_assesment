@@ -23,8 +23,23 @@ class Socket {
 
   generateReminder(userId, data) {
     try {
-      this.io.to(this.connectedClients[userId]).emit('reminder', data)
-      return true
+      if (this.connectedClients[userId]) {
+        this.io.to(this.connectedClients[userId]).emit('reminder', data)
+        return true
+      }
+      return false
+    } catch (error) {
+      return error
+    }
+  }
+
+  generateNotification(userId, data) {
+    try {
+      if (this.connectedClients[userId]) {
+        this.io.to(this.connectedClients[userId]).emit('notifications', data)
+        return true
+      }
+      return false
     } catch (error) {
       return error
     }
@@ -32,10 +47,13 @@ class Socket {
 
   adminNotifications(userId, data) {
     try {
-      this.io
-        .to(this.connectedClients[userId])
-        .emit('admin-notifications', data)
-      return true
+      if (this.connectedClients[userId]) {
+        this.io
+          .to(this.connectedClients[userId])
+          .emit('admin-notifications', data)
+        return true
+      }
+      return false
     } catch (error) {
       return error
     }

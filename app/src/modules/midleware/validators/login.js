@@ -3,6 +3,7 @@ import Joi from 'joi'
 const schema = Joi.object({
   email: Joi.string().email().required(),
   password: Joi.string().min(8).max(32).required(),
+  pushToken: Joi.string().optional(),
 })
 
 const validate = async (req, res, next) => {

@@ -50,6 +50,17 @@ export default class Repo {
     }
   }
 
+  async updateById(where, data) {
+    try {
+      const response = await this.model.findByIdAndUpdate(where, data, {
+        new: true,
+      })
+      return response
+    } catch (error) {
+      throw new Error(error)
+    }
+  }
+
   async removeSubDoc(where, sq) {
     try {
       const response = await this.model.findByIdAndUpdate(

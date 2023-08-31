@@ -92,8 +92,8 @@ class Service extends Repo {
     }
   }
 
-  async login(email, password) {
-    let user = await this.findOne({ email })
+  async login(obj) {
+    let user = await this.findOne({ email: obj.email })
     if (user.role !== 'ADMIN') {
       throw new BadRequest('UnAuthorized')
     }
@@ -103,9 +103,16 @@ class Service extends Repo {
     if (user.isVerified === false) {
       throw new Conflict('You are not verify your account yet.')
     }
-    const compare = await utilities.compare(password, user.password)
+    const compare = await utilities.compare(obj.password, user.password)
     if (!compare) {
       throw new Conflict('Email or password invalid')
+    }
+
+    if (obj.pushToken) {
+      user = await this.updateById(
+        { _id: user._id },
+        { pushToken: obj.pushToken }
+      )
     }
 
     user = {
@@ -114,7 +121,9 @@ class Service extends Repo {
       displayName: user.displayName,
       isVerified: user.isVerified,
       role: user.role,
+      pushToken: user.pushToken,
     }
+
     const token = utilities.createToken(user, process.env.secret)
     const response = {
       statusCode: 200,

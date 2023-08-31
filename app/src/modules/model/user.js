@@ -17,6 +17,7 @@ const userSchema = mongoose.Schema({
     value: ['USER', 'ADMIN'],
     default: 'USER',
   },
+  pushToken: String,
 })
 
 const User = mongoose.model('User', userSchema)
