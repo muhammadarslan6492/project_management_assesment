@@ -12,7 +12,6 @@ class Service extends Repo {
   }
 
   async craeteUser(payload) {
-    // check existed user
     const existedUser = await this.findOne({ email: payload.email })
     if (existedUser) {
       console.log(existedUser)

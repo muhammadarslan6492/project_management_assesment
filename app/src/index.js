@@ -26,7 +26,7 @@ const options = {
   customSiteTitle: 'JOB-ASSESMENT',
 }
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT
 const app = new Express()
 
 app.get('/', (req, res) => {
@@ -71,6 +71,7 @@ app.use(
   })
 )
 
+// swagger api docs >>> localhost:1337/api-docs
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options))
 
 try {
